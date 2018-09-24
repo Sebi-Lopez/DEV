@@ -4,10 +4,9 @@
 template <class TYPE>
 class vec3 {
 
-private:
-	TYPE x, y, z;
-
 public:
+
+	TYPE x, y, z;
 
 
 	// CONSTRUCTORS
