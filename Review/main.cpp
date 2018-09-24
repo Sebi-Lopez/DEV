@@ -6,8 +6,14 @@
 
 int main() {
 	
+	vec3 <int>vec(50, 30, 450);
+	vec3 <int>vec2(50, 30, 450);
 
+	vec3 <float>vecf(200.5, 300.5, 400.5);
+	vec.normalize(); 
+	vecf.normalize(); 
 
+	vec.distance_to(vec2);
 
 	system("pause");
 	return 0; 

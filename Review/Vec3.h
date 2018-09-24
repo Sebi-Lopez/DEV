@@ -32,27 +32,22 @@ public:
 
 	// METHODS
 
-	vec3 normalize()
+	void normalize()
 	{
-		
+		TYPE module = (TYPE) sqrt(x*x + y*y + z*z);
+		x = x / module;
+		y = y / module;
+		z = z / module; 
 	}
 
 	vec3 zero()
 	{
-		this->x = 0;
-		this->y = 0;
-		this->z = 0;
-
-		return (*this); 
-	}
-
-	/*void zero()
-	{
 		x = 0;
 		y = 0;
 		z = 0;
-	}*/
 
+		return *this; 
+	}
 
 	bool is_zero()
 	{
@@ -60,37 +55,26 @@ public:
 	}
 
 
-	vec3 distance_to(const vec3& vec)
+	TYPE distance_to(const vec3& vec)
 	{
-		vec3 r;
-		r.x = vec.x - x;
-		r.y = vec.y - y;
-		r.z = vec.z - z;
-
-		return r; 
+		return (TYPE) sqrt((x - vec.x)*(x - vec.x) + (y - vec.y)*(y - vec.y) + (z - vec.z)*(z - vec.z));
 	}
+
+	TYPE distance_to_squared(const vec3& vec)
+	{
+		return (TYPE) ((x - vec.x)*(x - vec.x) + (y - vec.y)*(y - vec.y) + (z - vec.z)*(z - vec.z));
+	}
+
 
 	// OPERATORS
 	vec3 operator +(const vec3& vec)
 	{
-		vec3 r;
-
-		r.x = this->x + vec.x;
-		r.y = this->y + vec.y;
-		r.z = this->z + vec.z;
-
-		return r;
+		return vec3(vec.x + x, vec.y + y, vec.z + z);
 	}
 
 	vec3 operator -(const vec3& vec)
 	{
-		vec3 r;
-
-		r.x = this->x - vec.x;
-		r.y = this->y - vec.y;
-		r.z = this->z - vec.z;
-
-		return r;
+		return vec3(vec.x - x, vec.y - y, vec.z - z);
 	}
 
 	vec3  operator +=(const vec3& vec)
@@ -99,7 +83,7 @@ public:
 		this->y += vec.y;
 		this->z += vec.z;
 
-		return (*this);
+		return *this;
 	}
 
 	vec3  operator -=(const vec3& vec)
@@ -108,17 +92,13 @@ public:
 		this->y -= vec.y;
 		this->z -= vec.z;
 
-		return (*this);
+		return *this;
 	}
 
 	bool operator ==(const vec3& vec)
 	{
-		/*if (x == vec.x && y == vec.y && z == vec.z)
-			return true;*/
-
 		return (x == vec.x && y == vec.y && z == vec.z); 
 	}
-
 
 };
 
