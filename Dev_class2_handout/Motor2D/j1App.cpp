@@ -61,6 +61,15 @@ bool j1App::Awake()
 	// If everything goes well, load the top tag inside the xml_node property
 	// created in the last TODO
 
+	pugi::xml_parse_result result = document.load_file("../Motor2D/config.xml"); 
+	if (result){
+		LOG("XML File loaded succesfully.");
+		document_node = document.child("config");
+	}
+	else { 
+		LOG("There was a problem loading XML File.");
+	}
+
 	bool ret = true;
 
 	p2List_item<j1Module*>* item;

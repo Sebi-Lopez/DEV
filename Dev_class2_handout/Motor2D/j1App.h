@@ -69,6 +69,8 @@ public:
 	j1Audio*			audio;
 	j1Scene*			scene;
 
+	pugi::xml_document document; 
+	pugi::xml_node document_node; 
 
 private:
 
