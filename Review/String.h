@@ -3,19 +3,14 @@
 #include <string.h>
 class String {
 
-public: 
+private: 
 	char* ch;
+	int size; 
+public: 
 
-	/*String() {}
-	String(char* character) {
-		strcpy(ch, character); 
+	String() {
+		size = 0; 
 	}
-	String(char character) {
-		ch = character; 
-	}*/
-
-
-
 
 };
 
