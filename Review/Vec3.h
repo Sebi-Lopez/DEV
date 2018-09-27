@@ -14,36 +14,27 @@ public:
 	vec3()
 	{}
 
-	vec3(const vec3& vec)
-	{
-		this->x = vec.x;
-		this->y = vec.y;
-		this->z = vec.z;
-	}
+	vec3(const vec3& vec) : x(vec.x), y(vec.y), z(vec.z)	{}
 
-	vec3(const TYPE& x, const TYPE& y, const TYPE& z)
-	{
-		this->x = x;
-		this->y = y;
-		this->z = z;
-	}
+	vec3(const TYPE& x, const TYPE& y, const TYPE& z) : x(x), y(y), z(z) {}
 
 
 	// METHODS
 
-	void normalize()
+	vec3 normalize()
 	{
 		TYPE module = (TYPE) sqrt(x*x + y*y + z*z);
 		x = x / module;
 		y = y / module;
 		z = z / module; 
+		return *this;
 	}
 
 	vec3 zero()
 	{
-		x = 0;
-		y = 0;
-		z = 0;
+		x = (TYPE)0;
+		y = (TYPE)0;
+		z = (TYPE)0;
 
 		return *this; 
 	}
@@ -52,7 +43,6 @@ public:
 	{
 		return (x == 0 && y == 0 && z == 0);
 	}
-
 
 	TYPE distance_to(const vec3& vec)
 	{
