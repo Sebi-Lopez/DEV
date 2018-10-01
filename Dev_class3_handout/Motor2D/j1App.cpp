@@ -152,14 +152,7 @@ void j1App::PrepareUpdate()
 void j1App::FinishUpdate()
 {
 	// TODO 1: This is a good place to call load / Save functions
-	if (to_save) { 				
-		to_save = false; 
-		Save();
-	}
-	if (to_load) { 
-		to_load = false; 
-		Load();  
-	}
+
 }
 
 // Call modules before each loop iteration

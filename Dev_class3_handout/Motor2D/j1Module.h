@@ -60,17 +60,6 @@ public:
 	}
 
 	// TODO 3: Create new virtual methods to Load and Save
-	
-	virtual bool Save()
-	{
-		return true; 
-	}
-
-	virtual bool Load()
-	{
-		return true; 
-	}
-
 
 public:
 

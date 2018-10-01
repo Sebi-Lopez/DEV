@@ -48,8 +48,6 @@ public:
 	// that can be called anytime, even if they 
 	// will one execute by the very end of the frame
 	// Load / Save
-	void Load() const;
-	void Save() const;
 
 private:
 
@@ -80,9 +78,6 @@ public:
 	j1Textures*			tex;
 	j1Audio*			audio;
 	j1Scene*			scene;
-	
-	bool to_load = false;
-	bool to_save = false; 
 
 private:
 
@@ -97,7 +92,7 @@ private:
 
 	p2SString			title;
 	p2SString			organization;
-	
+
 };
 
 extern j1App* App;
