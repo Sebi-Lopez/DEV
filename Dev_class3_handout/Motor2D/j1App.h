@@ -49,6 +49,9 @@ public:
 	// will one execute by the very end of the frame
 	// Load / Save
 
+	void Save();
+	void Load();
+
 private:
 
 	// Load config file
@@ -68,6 +71,11 @@ private:
 
 	// Call modules after each loop iteration
 	bool PostUpdate();
+	
+
+
+	bool LoadNow();
+	bool SaveNow();
 
 public:
 
@@ -79,6 +87,8 @@ public:
 	j1Audio*			audio;
 	j1Scene*			scene;
 
+	bool to_load = false;
+	bool to_save = false; 
 private:
 
 	p2List<j1Module*>	modules;

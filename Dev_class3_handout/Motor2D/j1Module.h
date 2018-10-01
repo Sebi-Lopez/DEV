@@ -61,6 +61,15 @@ public:
 
 	// TODO 3: Create new virtual methods to Load and Save
 
+	virtual bool Load()
+	{
+		return true; 
+	}
+
+	virtual bool Save()
+	{
+		return true; 
+	}
 public:
 
 	p2SString	name;

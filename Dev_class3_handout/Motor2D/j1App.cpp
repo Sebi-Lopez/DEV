@@ -152,6 +152,10 @@ void j1App::PrepareUpdate()
 void j1App::FinishUpdate()
 {
 	// TODO 1: This is a good place to call load / Save functions
+	if (to_load == true) 
+		LoadNow();
+	if (to_save == true) 
+		SaveNow();
 
 }
 
@@ -261,6 +265,16 @@ const char* j1App::GetTitle() const
 const char* j1App::GetOrganization() const
 {
 	return organization.GetString();
+}
+
+void j1App::Save()
+{
+	to_save == true; 
+}
+
+void j1App::Load()
+{
+	to_load = true; 
 }
 
 
