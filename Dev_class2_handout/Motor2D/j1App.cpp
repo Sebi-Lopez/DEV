@@ -56,12 +56,25 @@ void j1App::AddModule(j1Module* module)
 
 // Called before render is available
 bool j1App::Awake()
-{
+{	
+	bool ret = true;
+
 	// TODO 3: Load config.xml file using load_file() method from the xml_document class.
 	// If everything goes well, load the top tag inside the xml_node property
 	// created in the last TODO
 
-	bool ret = true;
+	pugi::xml_parse_result result = document.load_file("config.xml");
+	
+	if (result == NULL) 
+	{
+		 LOG("There was a problem loading XML File. XML Error: %d", result.description());
+		 ret = false;
+	}
+	else
+	{
+		node_document = document.child("config");
+		LOG("XML File loaded successfully-"); 
+	}
 
 	p2List_item<j1Module*>* item;
 	item = modules.start;
@@ -72,7 +85,7 @@ bool j1App::Awake()
 		// If the section with the module name exist in config.xml, fill the pointer with the address of a valid xml_node
 		// that can be used to read all variables from that section. Send nullptr if the section does not exist in config.xml
 
-		ret = item->data->Awake();
+		ret = item->data->Awake(node_document.child(item->data->name.GetString()));
 		item = item->next;
 	}
 

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Config file for the game -->
+<config>
+  
+<name>My super awesome game with XML</name>
+  <App>
+    <tittle> Game Development Testbed</tittle>
+    <organization> UPC </organization>
+  </App>
+
+  
+  <Renderer>
+    
+  </Renderer>
+
+
+  <Window>
+    <FULLSCREN fullscreen ="false"></FULLSCREN>
+    <BORDERLESS borderless ="false"></BORDERLESS>
+    <RESIZABLE resizable ="true"></RESIZABLE>
+    <FULLSCREEN_WINDOW fullscreen_window ="false"></FULLSCREEN_WINDOW>
+    <TITLE>Replaceme Title</TITLE>
+    <WIDTH width ="1024"></WIDTH>
+    <HEIGHT height ="768"></HEIGHT>
+    <SCALE scale ="1"></SCALE>
+  </Window>
+
+
+  <Audio>
+    
+  </Audio>
+  
+</config>
