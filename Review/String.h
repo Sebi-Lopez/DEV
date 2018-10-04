@@ -49,9 +49,10 @@ public:
 		return String(chain.string);
 	}
 	
-	void GetChar() 
+	String operator+(const String& chain)
 	{
-		
+		strcat_s(this->string, this->allocated_memory + chain.allocated_memory, chain.string);
+		return *this; 
 	}
 
 	~String() 

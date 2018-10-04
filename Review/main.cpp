@@ -7,7 +7,10 @@
 int main() {
 	
 	String a("hello");
+	String b("bye");
 	
+	a + b; 
+
 	system("pause");
 	return 0; 
 }
