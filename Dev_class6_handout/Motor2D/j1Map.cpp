@@ -35,6 +35,16 @@ void j1Map::Draw()
 	MapLayer* layer = data.layers.start->data; // for now we just use the first layer and tileset
 	TileSet* tileset = data.tilesets.start->data;
 
+	for (uint x = 0; x < data.width; x++)
+	{
+		for (uint y = 0; y < data.height; y++)
+		{
+			iPoint coordenates = MapToWorld(x, y);
+			SDL_Rect rect = tileset->GetTileRect(layer->Get(x, y));
+			App->render->Blit(tileset->texture, coordenates.x, coordenates.y, &rect);
+		}
+	}
+
 	// TODO 10(old): Complete the draw function
 }
 
@@ -42,8 +52,18 @@ iPoint j1Map::MapToWorld(int x, int y) const
 {
 	iPoint ret(0,0);
 	// TODO 8(old): Create a method that translates x,y coordinates from map positions to world positions
-
+	if (data.type == MapTypes::MAPTYPE_ORTHOGONAL)
+	{
+		ret.x = x * data.tile_width;
+		ret.y = y * data.tile_height;
+	}
 	// TODO 1: Add isometric map to world coordinates
+	if (data.type == MapTypes::MAPTYPE_ISOMETRIC)
+	{
+		ret.x = (x - y) * (data.tile_width * 0.5); 
+		ret.y = (x + y) * (data.tile_height * 0.5);
+	}
+
 	return ret;
 }
 
@@ -52,8 +72,23 @@ iPoint j1Map::WorldToMap(int x, int y) const
 {
 	iPoint ret(0,0);
 	// TODO 2: Add orthographic world to map coordinates
-
+	if (data.type == MapTypes::MAPTYPE_ORTHOGONAL)
+	{
+		ret.x = x / data.tile_width;
+		ret.y = y / data.tile_height;
+	}
 	// TODO 3: Add the case for isometric maps to WorldToMap
+	if (data.type == MapTypes::MAPTYPE_ISOMETRIC)
+	{
+		/*ret.x = (x + data.tile_width * 0.5 * y) / (data.tile_width*0.5);
+		ret.y = (y - data.tile_height * 0.5 * x) / (data.tile_height*0.5);*/
+			
+			// Equacio simplificada:
+
+		ret.x = (x / data.tile_width * 0.5) + y;
+		ret.y = (y / data.tile_height* 0.5) - x; 
+
+	}
 	return ret;
 }
 
@@ -61,6 +96,11 @@ SDL_Rect TileSet::GetTileRect(int id) const
 {
 	SDL_Rect rect = {0, 0, 0, 0};
 	// TODO 7(old): Create a method that receives a tile id and returns it's Rect
+	int relative_id = id - firstgid;
+	rect.w = tile_width;
+	rect.h = tile_height;
+	rect.x = margin + ((rect.w + spacing) * (relative_id % num_tiles_width));
+	rect.y = margin + ((rect.h + spacing) * (relative_id / num_tiles_width));
 	return rect;
 }
 
@@ -103,7 +143,7 @@ bool j1Map::Load(const char* file_name)
 	bool ret = true;
 	p2SString tmp("%s%s", folder.GetString(), file_name);
 
-	pugi::xml_parse_result result = map_file.load_file(file_name);
+	pugi::xml_parse_result result = map_file.load_file(tmp.GetString());
 
 	if(result == NULL)
 	{
