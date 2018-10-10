@@ -58,29 +58,29 @@ TileSet* j1Map::GetTilesetFromTileId(int id) const
 {
 	// TODO 3: Complete this method so we pick the right
 	// Tileset based on a tile id
-	bool found = false; 
-	p2List_item<TileSet*>* tileset_iterator = data.tilesets.start; 
-	p2List_item<TileSet*>* item = nullptr; 
+		bool found = false; 
+		p2List_item<TileSet*>* tileset_iterator = data.tilesets.start; 
+		p2List_item<TileSet*>* item = nullptr; 
 
-	/*for (tileset_iterator; tileset_iterator != nullptr && !found; tileset_iterator = tileset_iterator->next)
-	{
+		for (tileset_iterator; tileset_iterator != nullptr && !found; tileset_iterator = tileset_iterator->next)
+		{
 
-		if (id < tileset_iterator->data->firstgid)
-		{
-			found = true; 
-			item = tileset_iterator->prev; 
-		}
-		else
-		{
-			if (tileset_iterator == data.tilesets.end)
+			if (id < tileset_iterator->data->firstgid)
 			{
 				found = true; 
-				item = tileset_iterator; 
+				item = tileset_iterator->prev; 
+			}
+			else
+			{
+				if (tileset_iterator == data.tilesets.end)
+				{
+					found = true; 
+					item = tileset_iterator; 
+				}
 			}
 		}
-	}*/
 
-	return item->data;
+		return item->data;
 }
 
 iPoint j1Map::MapToWorld(int x, int y) const
