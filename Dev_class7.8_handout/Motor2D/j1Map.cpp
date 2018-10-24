@@ -48,9 +48,16 @@ void j1Map::Path(int x, int y)
 {
 	path.Clear();
 	iPoint goal = WorldToMap(x, y);
-
+	iPoint current = goal;
+	//path.PushBack(current);
 	// TODO 2: Follow the breadcrumps to goal back to the origin
 	// add each step into "path" dyn array (it will then draw automatically)
+	while (current != visited.start->data && visited.find(current) != -1)
+	{		
+		path.PushBack(current);
+		current = breadcrumbs[visited.find(current)];
+	}
+	path.PushBack(visited.start->data);
 }
 
 void j1Map::PropagateDijkstra()
@@ -58,6 +65,10 @@ void j1Map::PropagateDijkstra()
 	// TODO 3: Taking BFS as a reference, implement the Dijkstra algorithm
 	// use the 2 dimensional array "cost_so_far" to track the accumulated costs
 	// on each cell (is already reset to 0 automatically)
+	
+	  
+
+
 }
 
 int j1Map::MovementCost(int x, int y) const
@@ -84,6 +95,7 @@ void j1Map::PropagateBFS()
 	iPoint curr;
 	if (frontier.Pop(curr))
 	{
+
 		iPoint neighbors[4];
 		neighbors[0].create(curr.x + 1, curr.y + 0);
 		neighbors[1].create(curr.x + 0, curr.y + 1);
@@ -98,6 +110,7 @@ void j1Map::PropagateBFS()
 				{
 					frontier.Push(neighbors[i], 0);
 					visited.add(neighbors[i]);
+					breadcrumbs.add(curr);
 				}
 			}
 		}
