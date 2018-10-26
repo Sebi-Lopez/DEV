@@ -42,6 +42,7 @@ void j1Map::ResetPath()
 	visited.add(iPoint(19, 4));
 	breadcrumbs.add(iPoint(19, 4));
 	memset(cost_so_far, 0, sizeof(uint) * COST_MAP * COST_MAP);
+	cost_so_far[19][4] = 3;
 }
 
 void j1Map::Path(int x, int y)
@@ -66,9 +67,31 @@ void j1Map::PropagateDijkstra()
 	// use the 2 dimensional array "cost_so_far" to track the accumulated costs
 	// on each cell (is already reset to 0 automatically)
 	
-	  
+	iPoint current; 
 
-
+	if (frontier.Pop(current))
+	{
+		iPoint neighbours[4];
+		neighbours[0].create(current.x + 0, current.y - 1); // Up
+		neighbours[1].create(current.x + 1, current.y + 0);	// Right
+		neighbours[2].create(current.x + 0, current.y + 1);	// Down
+		neighbours[3].create(current.x - 1, current.y + 0);	// Left
+		
+		for (int i = 0; i < 4; ++i)
+		{
+			if (MovementCost(neighbours[i].x, neighbours[i].y) != -1)		// If is WALKABLE
+			{
+				uint new_cost = cost_so_far[current.x][current.y] + MovementCost(neighbours[i].x, neighbours[i].y);
+				if (visited.find(neighbours[i]) == -1 || new_cost < cost_so_far[neighbours[i].x][neighbours[i].y])		// If it hasnt been studied or Its a better way
+				{	
+					cost_so_far[neighbours[i].x][neighbours[i].y] = new_cost;
+					frontier.Push(neighbours[i], MovementCost(neighbours[i].x, neighbours[i].y));					
+					visited.add(neighbours[i]);
+					breadcrumbs.add(current);
+				}
+			}
+		}
+	}
 }
 
 int j1Map::MovementCost(int x, int y) const
