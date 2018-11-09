@@ -96,6 +96,7 @@ private:
 
 	p2SString			title;
 	p2SString			organization;
+	int					frame_cap = 0;
 
 	mutable bool		want_to_save = false;
 	bool				want_to_load = false;

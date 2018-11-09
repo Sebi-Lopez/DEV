@@ -85,8 +85,8 @@ bool j1App::Awake()
 		app_config = config.child("app");
 		title.create(app_config.child("title").child_value());
 		organization.create(app_config.child("organization").child_value());
-
 		// TODO 1: Read from config file your framerate cap
+		frame_cap = app_config.attribute("framerate_cap").as_int();
 	}
 
 	if(ret == true)
@@ -200,8 +200,9 @@ void j1App::FinishUpdate()
 	sprintf_s(title, 256, "Av.FPS: %.2f Last Frame Ms: %02u Last sec frames: %i  Time since startup: %.3f Frame Count: %lu ",
 			  avg_fps, last_frame_ms, frames_on_last_update, seconds_since_startup, frame_count);
 	App->win->SetTitle(title);
-
+	
 	// TODO 2: Use SDL_Delay to make sure you get your capped framerate
+	SDL_Delay((1 / (float)frame_cap)*1000 - last_frame_ms);
 
 	// TODO3: Measure accurately the amount of time it SDL_Delay actually waits compared to what was expected
 }
