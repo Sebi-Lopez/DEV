@@ -135,7 +135,7 @@ public:
 
 	// Propagation style
 	void PropagateBFS();
-	void PropagateDijkstra();
+	void PropagateDijkstra(const iPoint& goal, bool &found);
 
 private:
 

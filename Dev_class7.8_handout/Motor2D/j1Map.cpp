@@ -61,12 +61,11 @@ void j1Map::Path(int x, int y)
 	path.PushBack(visited.start->data);
 }
 
-void j1Map::PropagateDijkstra()
+void j1Map::PropagateDijkstra(const iPoint& goal, bool &found)
 {
 	// TODO 3: Taking BFS as a reference, implement the Dijkstra algorithm
 	// use the 2 dimensional array "cost_so_far" to track the accumulated costs
 	// on each cell (is already reset to 0 automatically)
-	
 	iPoint current; 
 
 	if (frontier.Pop(current))
@@ -88,6 +87,12 @@ void j1Map::PropagateDijkstra()
 					frontier.Push(neighbours[i], MovementCost(neighbours[i].x, neighbours[i].y));					
 					visited.add(neighbours[i]);
 					breadcrumbs.add(current);
+					if (neighbours[i] == goal)
+					{
+						found = true; 
+						break; 
+					}
+						
 				}
 			}
 		}

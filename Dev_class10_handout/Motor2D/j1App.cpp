@@ -170,6 +170,8 @@ void j1App::PrepareUpdate()
 	last_sec_frame_count++;
 
 	// TODO 4: Calculate the dt: differential time since last frame
+	dt = frame_time.ReadSec();
+	//LOG("DT: %f", dt);
 	frame_time.Start();
 }
 
@@ -202,9 +204,12 @@ void j1App::FinishUpdate()
 	App->win->SetTitle(title);
 	
 	// TODO 2: Use SDL_Delay to make sure you get your capped framerate
+	ptimer.Start();
+	LOG("We waited: %f", (1 / (float)frame_cap) * 1000 - last_frame_ms);
 	SDL_Delay((1 / (float)frame_cap)*1000 - last_frame_ms);
-
+	LOG("And came back at: %f", ptimer.ReadMs());
 	// TODO3: Measure accurately the amount of time it SDL_Delay actually waits compared to what was expected
+	
 }
 
 // Call modules before each loop iteration
@@ -248,7 +253,7 @@ bool j1App::DoUpdate()
 		// TODO 5: send dt as an argument to all updates
 		// you will need to update module parent class
 		// and all modules that use update
-		ret = item->data->Update();
+		ret = item->data->Update(dt);
 	}
 
 	return ret;

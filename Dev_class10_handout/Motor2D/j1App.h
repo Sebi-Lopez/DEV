@@ -103,6 +103,7 @@ private:
 	p2SString			load_game;
 	mutable p2SString	save_game;
 
+	float				dt;
 	j1PerfTimer			ptimer;
 	uint64				frame_count = 0;
 	j1Timer				startup_time;

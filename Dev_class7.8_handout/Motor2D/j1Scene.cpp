@@ -72,10 +72,23 @@ bool j1Scene::Update(float dt)
 		App->map->PropagateBFS();
 
 	if (App->input->GetKey(SDL_SCANCODE_J) == KEY_DOWN)
-		App->map->PropagateDijkstra();
+	{
+		bool found = false; 
+		int x, y;
+		App->input->GetMousePosition(x, y);
+		iPoint goal = App->map->WorldToMap(x - App->render->camera.x, y - App->render->camera.y);
+		while(!found)
+			App->map->PropagateDijkstra(goal,found);
+	}
 
 	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_REPEAT)
-		App->map->PropagateDijkstra();
+	{
+		bool found = false;
+		int x, y;
+		App->input->GetMousePosition(x, y);
+		iPoint goal = App->map->WorldToMap(x - App->render->camera.x, y - App->render->camera.y);
+		App->map->PropagateDijkstra(goal, found);
+	}
 
 	if (App->input->GetMouseButtonDown(1) == KEY_DOWN)
 	{
