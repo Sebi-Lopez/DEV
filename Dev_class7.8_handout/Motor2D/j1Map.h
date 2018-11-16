@@ -135,7 +135,9 @@ public:
 
 	// Propagation style
 	void PropagateBFS();
-	void PropagateDijkstra(const iPoint& goal, bool &found);
+	void PropagateDijkstra(const iPoint& goal);
+	void PropagateAStar(const iPoint& goal);
+	int CalculateHeuristic(const iPoint& goal, const iPoint& actual);
 
 private:
 

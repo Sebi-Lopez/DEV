@@ -6,6 +6,9 @@
 #include "j1Map.h"
 #include <math.h>
 
+
+#define HEURISTIC (a,b) : return abs(a.x - b.x) + abs (a.y - b.y)
+
 j1Map::j1Map() : j1Module(), map_loaded(false)
 {
 	name.create("map");
@@ -61,15 +64,16 @@ void j1Map::Path(int x, int y)
 	path.PushBack(visited.start->data);
 }
 
-void j1Map::PropagateDijkstra(const iPoint& goal, bool &found)
+void j1Map::PropagateDijkstra(const iPoint& goal)
 {
 	// TODO 3: Taking BFS as a reference, implement the Dijkstra algorithm
 	// use the 2 dimensional array "cost_so_far" to track the accumulated costs
 	// on each cell (is already reset to 0 automatically)
 	iPoint current; 
-
-	if (frontier.Pop(current))
+	while(frontier.Pop(current))
 	{
+		if (current == goal)
+			break;
 		iPoint neighbours[4];
 		neighbours[0].create(current.x + 0, current.y - 1); // Up
 		neighbours[1].create(current.x + 1, current.y + 0);	// Right
@@ -84,19 +88,51 @@ void j1Map::PropagateDijkstra(const iPoint& goal, bool &found)
 				if (visited.find(neighbours[i]) == -1 || new_cost < cost_so_far[neighbours[i].x][neighbours[i].y])		// If it hasnt been studied or Its a better way
 				{	
 					cost_so_far[neighbours[i].x][neighbours[i].y] = new_cost;
-					frontier.Push(neighbours[i], MovementCost(neighbours[i].x, neighbours[i].y));					
+					frontier.Push(neighbours[i], new_cost);					
 					visited.add(neighbours[i]);
 					breadcrumbs.add(current);
-					if (neighbours[i] == goal)
-					{
-						found = true; 
-						break; 
-					}
-						
 				}
 			}
 		}
 	}
+}
+
+void j1Map::PropagateAStar(const iPoint & goal)
+{
+	iPoint current;
+
+	while(frontier.Pop(current))
+	{
+		if (current == goal)
+			break; 
+
+		iPoint neighbours[4];
+		neighbours[0].create(current.x + 0, current.y - 1); // Up
+		neighbours[1].create(current.x + 1, current.y + 0);	// Right
+		neighbours[2].create(current.x + 0, current.y + 1);	// Down
+		neighbours[3].create(current.x - 1, current.y + 0);	// Left
+
+		for (int i = 0; i < 4; ++i)
+		{
+			if (MovementCost(neighbours[i].x, neighbours[i].y) != -1)		// If is WALKABLE
+			{
+				uint new_cost = cost_so_far[current.x][current.y] + MovementCost(neighbours[i].x, neighbours[i].y) + CalculateHeuristic(goal, neighbours[i]);
+				if (cost_so_far[neighbours[i].x][neighbours[i].y] == 0 || new_cost < cost_so_far[neighbours[i].x][neighbours[i].y])		// If it hasnt been studied or Its a better way
+				{
+					cost_so_far[neighbours[i].x][neighbours[i].y] = new_cost;
+					frontier.Push(neighbours[i], new_cost);
+					visited.add(neighbours[i]);
+					breadcrumbs.add(current);
+				}
+			}
+		}
+	}
+
+}
+
+int j1Map::CalculateHeuristic(const iPoint & goal, const iPoint & actual)
+{
+	return abs(goal.x - actual.x) + abs(goal.y - actual.y);
 }
 
 int j1Map::MovementCost(int x, int y) const
