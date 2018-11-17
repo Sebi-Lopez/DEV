@@ -116,7 +116,7 @@ void j1Map::PropagateAStar(const iPoint & goal)
 		{
 			if (MovementCost(neighbours[i].x, neighbours[i].y) != -1)		// If is WALKABLE
 			{
-				uint new_cost = cost_so_far[current.x][current.y] + MovementCost(neighbours[i].x, neighbours[i].y) + CalculateHeuristic(goal, neighbours[i]);
+				uint new_cost = cost_so_far[current.x][current.y] + MovementCost(neighbours[i].x, neighbours[i].y) + neighbours[i].DistanceTo(goal);
 				if (cost_so_far[neighbours[i].x][neighbours[i].y] == 0 || new_cost < cost_so_far[neighbours[i].x][neighbours[i].y])		// If it hasnt been studied or Its a better way
 				{
 					cost_so_far[neighbours[i].x][neighbours[i].y] = new_cost;
