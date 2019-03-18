@@ -70,6 +70,7 @@ void j1Map::PropagateDijkstra(const iPoint& goal)
 	// use the 2 dimensional array "cost_so_far" to track the accumulated costs
 	// on each cell (is already reset to 0 automatically)
 	iPoint current; 
+	iPoint goal1 = goal;
 	while(frontier.Pop(current))
 	{
 		if (current == goal)
@@ -88,7 +89,7 @@ void j1Map::PropagateDijkstra(const iPoint& goal)
 				if (visited.find(neighbours[i]) == -1 || new_cost < cost_so_far[neighbours[i].x][neighbours[i].y])		// If it hasnt been studied or Its a better way
 				{	
 					cost_so_far[neighbours[i].x][neighbours[i].y] = new_cost;
-					frontier.Push(neighbours[i], new_cost);					
+					frontier.Push(neighbours[i], new_cost + HEURISTIC(goal1, neighbours[i]));					
 					visited.add(neighbours[i]);
 					breadcrumbs.add(current);
 				}
